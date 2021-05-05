@@ -14,4 +14,7 @@ use App\Http\Controllers\SeriesController;
 |
 */
 
-Route::get('/', [SeriesController::class, 'index']);
+Route::get('/series', [SeriesController::class, 'index']) -> name('list_series');
+Route::get('/series/create', [SeriesController::class, 'create']) -> name('create_serie');
+Route::post('/series/create', [SeriesController::class, 'store']);
+Route::delete('/series/destroy/{id}', [SeriesController::class, 'destroy']);
