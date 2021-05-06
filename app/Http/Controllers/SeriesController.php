@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Serie;
 use Illuminate\Http\Request;
+use App\Models\Serie;
+use SebastianBergmann\Environment\Console;
 
 class SeriesController extends Controller
 {
@@ -23,10 +24,19 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $name = $request->name;
         $serieCreated = Serie::create([
-            'name' => $name
+            'name' => $request->name
         ]);
+
+        $qntSeasons = $request->qnt_seasons;
+
+        for ($i = 1; $i <= $qntSeasons; $i++) {
+            $season = $serieCreated->seasons()->create(['number' => $i]);
+
+            for ($j = 1; $j <= $request->ep_per_season; $j++) {
+                $season->episodes()->create(['number' => $j]);
+            }
+        }
 
         # $serieCreated = Serie::create($request -> all())
 

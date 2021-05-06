@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SeasonController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeriesController;
 
@@ -14,7 +15,13 @@ use App\Http\Controllers\SeriesController;
 |
 */
 
-Route::get('/series', [SeriesController::class, 'index']) -> name('list_series');
-Route::get('/series/create', [SeriesController::class, 'create']) -> name('create_serie');
+Route::get('/series', [SeriesController::class, 'index'])->name('list_series');
+Route::get('/series/create', [SeriesController::class, 'create'])->name('create_serie');
 Route::post('/series/create', [SeriesController::class, 'store']);
 Route::delete('/series/destroy/{id}', [SeriesController::class, 'destroy']);
+
+Route::get('/series/{seasonId}/seasons', [SeasonController::class, 'index']);
+
+Route::get('/', function () {
+    return redirect('/series');
+});
