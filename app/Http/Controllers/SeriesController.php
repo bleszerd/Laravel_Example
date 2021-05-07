@@ -8,6 +8,7 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Models\Serie;
 use App\Services\SeriesCreator;
+use App\Services\SeriesEditor;
 use App\Services\SeriesRemover;
 use SebastianBergmann\Environment\Console;
 
@@ -45,12 +46,20 @@ class SeriesController extends Controller
     public function destroy(Request $request, SeriesRemover $seriesRemover)
     {
         $serieName = $seriesRemover->removeSerie($request->id);
-        
+
         $request->session()->flash(
             'message',
             "Série {$serieName} removida com sucesso!"
         );
 
         return redirect()->route('list_series');
+    }
+
+    public function edit(Request $request, int $id)
+    {
+        $newSerieName = $request->name;
+        $serie = Serie::find($id);
+        $serie->name = $newSerieName;
+        $serie->save();
     }
 }
