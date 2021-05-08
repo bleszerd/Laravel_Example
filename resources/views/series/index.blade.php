@@ -5,13 +5,11 @@
 @endsection
 
 @section('content')
-    @if (!empty($message))
-        <div class="alert alert-success">
-            {{ $message }}
-        </div>
-    @endif
+    @include('message', ['message' => $message])
 
-    <a href="{{ route('create_serie') }}" class="btn btn-dark mb-2">Adicionar</a>
+    @auth
+        <a href="{{ route('create_serie') }}" class="btn btn-dark mb-2">Adicionar</a>
+    @endauth
 
     <ul class="list-group">
         @foreach ($series as $serie)
@@ -31,25 +29,29 @@
                 </div>
 
                 <span class="d-flex">
-                    <span>
-                        <button class="btn btn-primary btn-sm me-1" type="button"
-                            onclick="handleInputEdit({{ $serie->id }})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </span>
+                    @auth
+                        <span>
+                            <button class="btn btn-primary btn-sm me-1" type="button"
+                                onclick="handleInputEdit({{ $serie->id }})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </span>
+                    @endauth
                     <span>
                         <a href="/series/{{ $serie->id }}/seasons" class="btn btn-info btn-sm me-1">
                             <i class="fas fa-external-link-alt text-white"></i>
                         </a>
                     </span>
-                    <form method="POST" action="series/destroy/{{ $serie->id }}"
-                        onsubmit='return confirm("Tem certeza que deseja remover a série {{ addslashes($serie->name) }}?")'>
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm" type="submit">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
+                    @auth
+                        <form method="POST" action="series/destroy/{{ $serie->id }}"
+                            onsubmit='return confirm("Tem certeza que deseja remover a série {{ addslashes($serie->name) }}?")'>
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm" type="submit">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @endauth
                 </span>
             </li>
         @endforeach

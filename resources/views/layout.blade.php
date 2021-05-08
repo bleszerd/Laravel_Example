@@ -14,6 +14,17 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light m-2 ms-5 d-flex justify-content-between">
+        <a href="{{ route('list_series') }}" class="navbar-brand">Home</a>
+        @auth
+            <a href="/logout" class="me-2 text-decoration-none">Sair</a>
+        @endauth
+        
+        @guest
+            <a href="/auth" class="me-2 text-decoration-none">Entrar</a>
+        @endguest
+    </nav>
+
     <div class="container">
         <div class="bg-primary text-light p-3 my-3 rounded">
             <h1 class="fs-3 text fw-bold">@yield('header')</h1>
