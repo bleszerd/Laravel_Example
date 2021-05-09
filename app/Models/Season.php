@@ -11,7 +11,7 @@ class Season extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number'
+        'number',
     ];
 
     public function episodes()

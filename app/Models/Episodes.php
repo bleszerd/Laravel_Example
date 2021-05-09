@@ -10,7 +10,8 @@ class Episodes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number'
+        'number',
+        'watched',
     ];
 
     public function season()
